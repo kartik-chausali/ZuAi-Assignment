@@ -1,6 +1,11 @@
-// "use client"
+ "use client"
+import Chart from "@/components/Chart";
+import CriteriaA from "@/components/CriteriaA";
+import { useCurrentFile } from "@/components/Evaluate";
 // import { useCurrentFile } from "@/components/Evaluate";
 // import { Document , pdfjs, Page} from 'react-pdf'
+
+import PdfViewer from "@/components/PdfView";
 
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -159,7 +164,15 @@
 // export default PdfPage;
 
 export default function Score(){
-  return <div>
+  const currentFile = useCurrentFile((state:any)=> state.currentFile);
+  return <div className="flex">
+    <PdfViewer pdfUrl={currentFile}/>
+    <div className="flex flex-col h-full w-full items-center">
+      <Chart/>
+      <CriteriaA/>
+      <CriteriaA/>
+      <CriteriaA/>
+    </div>
     
   </div>
 }

@@ -138,6 +138,7 @@ export default function Evaluate(){
         }
 
       //  addFile(fileObject)
+        
         setCurrentFile(base64String)
         // setUploadedFile(base64String);
         setMetaData(metaData);

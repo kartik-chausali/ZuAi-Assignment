@@ -1,14 +1,12 @@
 // components/PdfViewer.js
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 
-// Set workerSrc for pdfjs
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-// pdfjs.GlobalWorkerOptions.workerSrc = `/node-modules/pdfjs-dist/build/prf.worker.min.js`
 
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`
 const PdfViewer = ({ pdfUrl }:any) => {
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -19,29 +17,17 @@ const PdfViewer = ({ pdfUrl }:any) => {
   };
 
   return (
-    <div>
-      <Document
-        file={pdfUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-      >
-        <Page pageNumber={pageNumber} />
+    <div className='w-fit max-h-screen overflow-y-auto'>
+      <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+      {Array.from({ length: numPages || 1 }, (_, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              pageNumber={index + 1}
+              renderAnnotationLayer={false}
+              renderTextLayer={false}
+            />
+          ))}
       </Document>
-      <div>
-        <button
-          disabled={pageNumber <= 1}
-          onClick={() => setPageNumber(pageNumber - 1)}
-        >
-          Previous
-        </button>
-        <span>
-          Page {pageNumber} of {numPages}
-        </span>
-        <button
-          onClick={() => setPageNumber(pageNumber + 1)}
-        >
-          Next
-        </button>
-      </div>
     </div>
   );
 };
