@@ -12,6 +12,10 @@ const nextConfig = {
         }
         return config;
       },
+      experimental: {
+        // …
+        serverComponentsExternalPackages: ['@react-pdf/renderer'],
+      }
 };
 
 export default nextConfig;
